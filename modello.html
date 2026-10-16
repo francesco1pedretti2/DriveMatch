@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modello | DriveMatch</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🏁</text></svg>">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Orbitron:wght@400;600;800;900&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = { theme: { extend: { fontFamily: { orbitron: ['Orbitron', 'sans-serif'], sans: ['Inter', 'sans-serif'] } } } }
+    </script>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="home.css">
+    <link rel="stylesheet" href="auto.css">
+</head>
+<body class="carbon-bg min-h-screen relative overflow-x-hidden">
+
+    <canvas id="techCanvas" class="fixed inset-0 z-0 pointer-events-none" aria-hidden="true"></canvas>
+    <div class="scanline z-10"></div>
+    <div class="fixed inset-0 bg-[radial-gradient(#00f0ff_1px,transparent_1px)] [background-size:32px_32px] opacity-10 pointer-events-none z-0"></div>
+
+    <header class="sticky top-0 z-40 nav-bar">
+        <nav class="max-w-6xl mx-auto flex items-center justify-between px-4 py-3" aria-label="Principale">
+            <a href="home.html" class="flex items-center gap-3">
+                <img src="logo.png" alt="" class="w-10 h-auto drop-shadow-[0_0_10px_rgba(0,240,255,0.4)]" onerror="this.style.display='none'">
+                <span class="font-tech font-black tracking-wider text-white text-lg">DRIVE<span class="text-cyan-400 text-glow">MATCH</span></span>
+            </a>
+            <div class="magnet-wrapper !w-auto">
+                <a href="index.html" class="apple-glass-btn px-5 py-2 font-tech text-xs tracking-wider text-cyan-300">
+                    <div class="glass-surface"></div><div class="liquid-core"></div><div class="specular-highlight"></div>
+                    <span class="btn-text"><i class="fa-solid fa-right-to-bracket mr-2"></i>ACCEDI</span>
+                </a>
+            </div>
+        </nav>
+    </header>
+
+    <main id="app" class="relative z-20 max-w-6xl mx-auto px-4 py-8"></main>
+
+    <div id="lightbox" class="lightbox" hidden role="dialog" aria-modal="true" aria-label="Foto a schermo intero">
+        <button type="button" id="lbClose" class="lb-close" aria-label="Chiudi"><i class="fa-solid fa-xmark"></i></button>
+        <button type="button" id="lbPrev" class="g-btn left-4" aria-label="Foto precedente"><i class="fa-solid fa-chevron-left"></i></button>
+        <img id="lbImg" alt="">
+        <button type="button" id="lbNext" class="g-btn right-4" aria-label="Foto successiva"><i class="fa-solid fa-chevron-right"></i></button>
+    </div>
+
+    <div id="toast" role="status" aria-live="polite" class="fixed bottom-5 right-5 transform translate-y-20 opacity-0 transition-all duration-300 z-50 flex items-center gap-3 px-4 py-3 rounded-xl bg-slate-900 border border-cyan-500/40 text-white shadow-2xl">
+        <i id="toastIcon" class="fa-solid fa-circle-info text-cyan-400"></i>
+        <span id="toastMsg" class="text-xs font-tech">Messaggio di sistema</span>
+    </div>
+
+    <script src="common.js"></script>
+    <script src="modello.js"></script>
+</body>
+</html>

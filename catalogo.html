@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Catalogo auto | DriveMatch</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🏁</text></svg>">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Orbitron:wght@400;600;800;900&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = { theme: { extend: { fontFamily: { orbitron: ['Orbitron', 'sans-serif'], sans: ['Inter', 'sans-serif'] } } } }
+    </script>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="home.css">
+    <link rel="stylesheet" href="cerca.css">
+</head>
+<body class="carbon-bg min-h-screen relative overflow-x-hidden">
+
+    <canvas id="techCanvas" class="fixed inset-0 z-0 pointer-events-none" aria-hidden="true"></canvas>
+    <div class="scanline z-10"></div>
+    <div class="fixed inset-0 bg-[radial-gradient(#00f0ff_1px,transparent_1px)] [background-size:32px_32px] opacity-10 pointer-events-none z-0"></div>
+
+    <header class="sticky top-0 z-40 nav-bar">
+        <nav class="max-w-6xl mx-auto flex items-center justify-between px-4 py-3" aria-label="Principale">
+            <a href="home.html" class="flex items-center gap-3">
+                <img src="logo.png" alt="" class="w-10 h-auto drop-shadow-[0_0_10px_rgba(0,240,255,0.4)]" onerror="this.style.display='none'">
+                <span class="font-tech font-black tracking-wider text-white text-lg">DRIVE<span class="text-cyan-400 text-glow">MATCH</span></span>
+            </a>
+            <div class="magnet-wrapper !w-auto">
+                <a href="index.html" class="apple-glass-btn px-5 py-2 font-tech text-xs tracking-wider text-cyan-300">
+                    <div class="glass-surface"></div><div class="liquid-core"></div><div class="specular-highlight"></div>
+                    <span class="btn-text"><i class="fa-solid fa-right-to-bracket mr-2"></i>ACCEDI</span>
+                </a>
+            </div>
+        </nav>
+    </header>
+
+    <main class="relative z-20 max-w-6xl mx-auto px-4 py-10">
+        <h1 class="font-tech font-black text-3xl md:text-4xl text-white">Catalogo auto</h1>
+        <p class="text-slate-300 mt-2 mb-8 max-w-2xl">Scegli una marca e, se vuoi, l'anno del modello: gli ultimi anni includono le novità. I modelli arrivano dal database pubblico NHTSA vPIC, le foto da Wikimedia Commons.</p>
+
+        <section class="tech-card tech-corners rounded-2xl p-6 mb-8">
+            <div class="glass-blobs" aria-hidden="true"><span></span><span></span><span></span></div>
+            <form id="searchForm" class="grid md:grid-cols-[1fr_220px_auto] gap-3 items-end">
+                <div>
+                    <label for="makeIn" class="block text-xs font-tech text-slate-300 mb-1.5 uppercase tracking-wider"><i class="fa-solid fa-car text-cyan-400 mr-1.5"></i>Marca</label>
+                    <input id="makeIn" list="makeList" autocomplete="off" placeholder="Es. Fiat, Tesla, BYD…" class="w-full tech-input rounded-xl px-4 py-3 text-sm text-slate-100 placeholder-slate-400">
+                    <datalist id="makeList"></datalist>
+                </div>
+                <div>
+                    <label for="yearSel" class="block text-xs font-tech text-slate-300 mb-1.5 uppercase tracking-wider"><i class="fa-solid fa-calendar text-cyan-400 mr-1.5"></i>Anno modello</label>
+                    <select id="yearSel" class="w-full tech-input rounded-xl px-4 py-3 text-sm text-slate-200 bg-slate-900"></select>
+                </div>
+                <div class="magnet-wrapper !w-auto">
+                    <button type="submit" class="apple-glass-btn px-7 py-3 font-tech text-sm font-bold tracking-wider text-white">
+                        <div class="glass-surface"></div><div class="liquid-core"></div><div class="specular-highlight"></div>
+                        <span class="btn-text"><i class="fa-solid fa-magnifying-glass mr-2 text-cyan-400"></i>CERCA</span>
+                    </button>
+                </div>
+            </form>
+            <div id="brandChips" class="flex flex-wrap gap-2 mt-4"></div>
+        </section>
+
+        <p id="status" class="text-sm text-slate-300 mb-4" role="status" aria-live="polite"></p>
+        <div id="filterRow" class="mb-6 max-w-sm" hidden>
+            <input id="filterIn" type="search" placeholder="Filtra i modelli…" aria-label="Filtra i modelli" class="w-full tech-input rounded-xl px-4 py-3 text-sm text-slate-100 placeholder-slate-400">
+        </div>
+        <div id="grid" class="grid sm:grid-cols-2 lg:grid-cols-4 gap-4"></div>
+        <div id="moreWrap" class="text-center mt-8" hidden>
+            <div class="magnet-wrapper !w-auto justify-center">
+                <button type="button" id="moreBtn" class="apple-glass-btn px-8 py-3 font-tech text-xs tracking-wider text-slate-200">
+                    <div class="glass-surface"></div><div class="liquid-core"></div><div class="specular-highlight"></div>
+                    <span class="btn-text">MOSTRA ALTRI</span>
+                </button>
+            </div>
+        </div>
+        <p class="text-[11px] text-slate-500 mt-8">Foto da Wikimedia Commons (licenza libera); autore e licenza sono nella pagina di ogni modello. L'elenco dei modelli è più completo per il mercato nordamericano.</p>
+    </main>
+
+    <div id="toast" role="status" aria-live="polite" class="fixed bottom-5 right-5 transform translate-y-20 opacity-0 transition-all duration-300 z-50 flex items-center gap-3 px-4 py-3 rounded-xl bg-slate-900 border border-cyan-500/40 text-white shadow-2xl">
+        <i id="toastIcon" class="fa-solid fa-circle-info text-cyan-400"></i>
+        <span id="toastMsg" class="text-xs font-tech">Messaggio di sistema</span>
+    </div>
+
+    <script src="common.js"></script>
+    <script src="catalogo.js"></script>
+</body>
+</html>

@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DriveMatch | Accedi</title>
+    <meta name="description" content="DriveMatch: trova la tua auto ideale, oppure pubblica i tuoi annunci.">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🏁</text></svg>">
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts: Orbitron & Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Orbitron:wght@400;600;800;900&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        cyber: {
+                            black: '#0a0d14',
+                            card: 'rgba(15, 23, 42, 0.75)',
+                            border: 'rgba(56, 189, 248, 0.2)',
+                            cyan: '#00f0ff',
+                            blue: '#0284c7',
+                            red: '#ff0055',
+                            neon: '#38bdf8'
+                        }
+                    },
+                    fontFamily: {
+                        orbitron: ['Orbitron', 'sans-serif'],
+                        sans: ['Inter', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="carbon-bg min-h-screen flex items-center justify-center p-4 relative overflow-x-hidden">
+
+    <canvas id="techCanvas" class="fixed inset-0 z-0 pointer-events-none" aria-hidden="true"></canvas>
+
+    <!-- Scanline effect -->
+    <div class="scanline z-10"></div>
+
+    <!-- Background Tech Grid Lines Overlay -->
+    <div class="fixed inset-0 bg-[radial-gradient(#00f0ff_1px,transparent_1px)] [background-size:32px_32px] opacity-10 pointer-events-none z-0"></div>
+
+    <!-- MAIN CONTAINER -->
+    <main class="w-full max-w-md z-20 relative my-8">
+
+        <!-- LOGO CONTAINER -->
+        <div class="text-center mb-6">
+            <div class="inline-flex items-center justify-center gap-4 mb-2">
+                <img src="logo.png" alt="DriveMatch Logo" class="max-w-[100px] w-full h-auto drop-shadow-[0_0_15px_rgba(0,240,255,0.4)]" onerror="this.onerror=null; this.src='https://via.placeholder.com/280x160/0b1329/00f0ff?text=DriveMatch';">
+                <h1 class="text-3xl font-black font-tech tracking-wider text-white flex items-center">
+                    DRIVE<span class="text-cyan-400 text-glow">MATCH</span>
+                </h1>
+            </div>
+            
+        </div>
+
+        <!-- MAIN LOGIN / REGISTER CARD -->
+        <div class="tech-card tech-corners rounded-2xl p-6 md:p-8">
+            <div class="glass-blobs" aria-hidden="true"><span></span><span></span><span></span></div>
+            
+            <!-- MODE SWITCHER TABS -->
+            <div class="grid grid-cols-2 gap-2 p-1 bg-slate-950/30 rounded-full border border-slate-800/80 mb-6" role="tablist">
+                <div class="magnet-wrapper">
+                    <button id="tabLogin" type="button" role="tab" aria-selected="true" aria-controls="formLogin" onclick="switchTab('login')" class="apple-glass-btn tab-btn is-active w-full py-2.5 font-tech text-xs tracking-wider">
+                        <div class="glass-surface"></div>
+                        <div class="liquid-core"></div>
+                        <div class="specular-highlight"></div>
+                        <span class="btn-text"><i class="fa-solid fa-right-to-bracket mr-2"></i>ACCEDI</span>
+                    </button>
+                </div>
+                <div class="magnet-wrapper">
+                    <button id="tabRegister" type="button" role="tab" aria-selected="false" aria-controls="formRegister" onclick="switchTab('register')" class="apple-glass-btn tab-btn w-full py-2.5 font-tech text-xs tracking-wider">
+                        <div class="glass-surface"></div>
+                        <div class="liquid-core"></div>
+                        <div class="specular-highlight"></div>
+                        <span class="btn-text"><i class="fa-solid fa-user-plus mr-2"></i>REGISTRATI</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- LOGIN FORM -->
+            <form id="formLogin" onsubmit="handleAuth(event, 'login')" class="space-y-4">
+                <div>
+                    <label class="block text-xs font-tech text-slate-300 mb-1.5 uppercase tracking-wider">
+                        <i class="fa-solid fa-envelope text-cyan-400 mr-1.5"></i>Email o Username
+                    </label>
+                    <div class="relative">
+                        <input id="loginUser" type="text" required autocomplete="username" aria-label="Email o username" placeholder="pilot@drivematch.it" class="w-full tech-input rounded-xl px-4 py-3 text-sm text-slate-100 placeholder-slate-400 focus:text-white">
+                        
+                    </div>
+                </div>
+
+                <div>
+                    <div class="flex justify-between items-center mb-1.5">
+                        <label class="text-xs font-tech text-slate-300 uppercase tracking-wider">
+                            <i class="fa-solid fa-key text-cyan-400 mr-1.5"></i>Password
+                        </label>
+                        <button type="button" onclick="showToast('Link di ripristino inviato alla tua email', 'info')" class="text-xs text-cyan-400 hover:underline font-sans">Dimenticata?</button>
+                    </div>
+                    <div class="relative">
+                        <input id="loginPassword" type="password" required autocomplete="current-password" aria-label="Password" placeholder="••••••••••••" class="w-full tech-input rounded-xl px-4 py-3 text-sm text-slate-100 placeholder-slate-400 pr-10">
+                        <button type="button" aria-label="Mostra password" onclick="togglePasswordVisibility('loginPassword')" class="absolute right-3 top-3.5 text-slate-400 hover:text-cyan-400 transition-colors z-20">
+                            <i class="fa-solid fa-eye text-sm"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="flex items-center justify-between pt-1">
+                    <label class="flex items-center space-x-2.5 cursor-pointer">
+                        <input type="checkbox" class="w-4 h-4 rounded border-slate-700 bg-slate-900 text-cyan-500 focus:ring-cyan-400 focus:ring-offset-slate-900">
+                        <span class="text-xs text-slate-300">Mantieni sessione attiva</span>
+                    </label>
+                </div>
+
+                <div class="magnet-wrapper w-full pt-2">
+                    <button type="submit" class="apple-glass-btn w-full py-3.5 font-tech text-sm font-bold tracking-wider">
+                        <div class="glass-surface"></div>
+                        <div class="liquid-core"></div>
+                        <div class="specular-highlight"></div>
+                        <span class="btn-text flex items-center justify-center gap-2">
+                            <span>ACCEDI ORA</span>
+                            <i class="fa-solid fa-arrow-right-to-bracket"></i>
+                        </span>
+                    </button>
+                </div>
+            </form>
+
+            <!-- REGISTRATION FORM (HIDDEN BY DEFAULT) -->
+            <form id="formRegister" onsubmit="handleAuth(event, 'register')" class="space-y-4 hidden">
+                <div>
+                    <label class="block text-xs font-tech text-slate-300 mb-1.5 uppercase tracking-wider">
+                        <i class="fa-solid fa-user text-cyan-400 mr-1.5"></i>Nome Utente / Username
+                    </label>
+                    <input id="regUser" type="text" required autocomplete="username" aria-label="Nome utente" placeholder="Es. Marco_V8" class="w-full tech-input rounded-xl px-4 py-3 text-sm text-slate-100 placeholder-slate-400">
+                </div>
+
+                <div>
+                    <label class="block text-xs font-tech text-slate-300 mb-1.5 uppercase tracking-wider">
+                        <i class="fa-solid fa-envelope text-cyan-400 mr-1.5"></i>Indirizzo Email
+                    </label>
+                    <input id="regEmail" type="email" required autocomplete="email" aria-label="Indirizzo email" placeholder="tuonome@dominio.it" class="w-full tech-input rounded-xl px-4 py-3 text-sm text-slate-100 placeholder-slate-400">
+                </div>
+
+                <div>
+                    <label class="block text-xs font-tech text-slate-300 mb-1.5 uppercase tracking-wider">
+                        <i class="fa-solid fa-car text-cyan-400 mr-1.5"></i>Tipo Account
+                    </label>
+                    <select aria-label="Tipo account" class="w-full tech-input rounded-xl px-4 py-3 text-sm text-slate-200 bg-slate-900">
+                        <option value="buyer">Cercatore (Voglio trovare l'auto ideale)</option>
+                        <option value="seller">Venditore (Voglio pubblicare annunci)</option>
+                        <option value="both">Entrambi (Match + Compravendita)</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label class="block text-xs font-tech text-slate-300 mb-1.5 uppercase tracking-wider">
+                        <i class="fa-solid fa-lock text-cyan-400 mr-1.5"></i>Password
+                    </label>
+                    <div class="relative">
+                        <input id="regPassword" type="password" required minlength="8" autocomplete="new-password" aria-label="Password" placeholder="••••••••••••" class="w-full tech-input rounded-xl px-4 py-3 text-sm text-slate-100 placeholder-slate-400 pr-10">
+                        <button type="button" aria-label="Mostra password" onclick="togglePasswordVisibility('regPassword')" class="absolute right-3 top-3.5 text-slate-400 hover:text-cyan-400 transition-colors z-20">
+                            <i class="fa-solid fa-eye text-sm"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <div>
+                    <label for="regPasswordConfirm" class="block text-xs font-tech text-slate-300 mb-1.5 uppercase tracking-wider">
+                        <i class="fa-solid fa-lock text-cyan-400 mr-1.5"></i>Conferma password
+                    </label>
+                    <input id="regPasswordConfirm" type="password" required autocomplete="new-password" placeholder="••••••••••••" class="w-full tech-input rounded-xl px-4 py-3 text-sm text-slate-100 placeholder-slate-400">
+                </div>
+
+                <div class="flex items-start space-x-2 pt-1">
+                    <input type="checkbox" required id="terms" class="mt-1 w-4 h-4 rounded border-slate-700 bg-slate-900 text-cyan-500 focus:ring-cyan-400 focus:ring-offset-slate-900">
+                    <label for="terms" class="text-xs text-slate-300 leading-tight">
+                        Accetto i <a href="#" onclick="event.preventDefault(); showToast('Pagina in arrivo (progetto demo)', 'info')" class="text-cyan-400 underline">Termini di Servizio</a> e l'elaborazione dei dati.
+                    </label>
+                </div>
+
+                <div class="magnet-wrapper w-full pt-2">
+                    <button type="submit" class="apple-glass-btn w-full py-3.5 font-tech text-sm font-bold tracking-wider">
+                        <div class="glass-surface"></div>
+                        <div class="liquid-core"></div>
+                        <div class="specular-highlight"></div>
+                        <span class="btn-text flex items-center justify-center gap-2">
+                            <span>CREA PROFILO</span>
+                            <i class="fa-solid fa-user-plus"></i>
+                        </span>
+                    </button>
+                </div>
+            </form>
+
+            <!-- QUICK DEMO MODES -->
+            <div class="mt-6 pt-5 border-t border-slate-800/80 text-center">
+                <p class="text-xs text-slate-300 font-tech mb-3">OPPURE ACCEDI RAPIDAMENTE CON</p>
+                <div class="grid grid-cols-2 gap-3">
+                    <div class="magnet-wrapper">
+                        <button type="button" onclick="quickDemo('buyer')" class="apple-glass-btn w-full py-2.5 text-xs text-slate-300">
+                            <div class="glass-surface"></div>
+                            <div class="liquid-core"></div>
+                            <div class="specular-highlight"></div>
+                            <span class="btn-text flex items-center justify-center gap-2">
+                                <i class="fa-solid fa-sliders text-cyan-400"></i>
+                                <span>Demo Acquirente</span>
+                            </span>
+                        </button>
+                    </div>
+                    <div class="magnet-wrapper">
+                        <button type="button" onclick="quickDemo('seller')" class="apple-glass-btn w-full py-2.5 text-xs text-slate-300">
+                            <div class="glass-surface"></div>
+                            <div class="liquid-core"></div>
+                            <div class="specular-highlight"></div>
+                            <span class="btn-text flex items-center justify-center gap-2">
+                                <i class="fa-solid fa-car-side text-emerald-400"></i>
+                                <span>Demo Venditore</span>
+                            </span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <!-- TOAST NOTIFICATION CONTAINER -->
+    <div id="toast" role="status" aria-live="polite" class="fixed bottom-5 right-5 transform translate-y-20 opacity-0 transition-all duration-300 z-50 flex items-center gap-3 px-4 py-3 rounded-xl bg-slate-900 border border-cyan-500/40 text-white shadow-2xl">
+        <i id="toastIcon" class="fa-solid fa-circle-info text-cyan-400"></i>
+        <span id="toastMsg" class="text-xs font-tech">Messaggio di sistema</span>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

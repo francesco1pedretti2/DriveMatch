@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trova la mia auto | DriveMatch</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🏁</text></svg>">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Orbitron:wght@400;600;800;900&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = { theme: { extend: { fontFamily: { orbitron: ['Orbitron', 'sans-serif'], sans: ['Inter', 'sans-serif'] } } } }
+    </script>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="home.css">
+    <link rel="stylesheet" href="cerca.css">
+</head>
+<body class="carbon-bg min-h-screen relative overflow-x-hidden">
+
+    <canvas id="techCanvas" class="fixed inset-0 z-0 pointer-events-none" aria-hidden="true"></canvas>
+    <div class="scanline z-10"></div>
+    <div class="fixed inset-0 bg-[radial-gradient(#00f0ff_1px,transparent_1px)] [background-size:32px_32px] opacity-10 pointer-events-none z-0"></div>
+
+    <header class="sticky top-0 z-40 nav-bar">
+        <nav class="max-w-6xl mx-auto flex items-center justify-between px-4 py-3" aria-label="Principale">
+            <a href="home.html" class="flex items-center gap-3">
+                <img src="logo.png" alt="" class="w-10 h-auto drop-shadow-[0_0_10px_rgba(0,240,255,0.4)]" onerror="this.style.display='none'">
+                <span class="font-tech font-black tracking-wider text-white text-lg">DRIVE<span class="text-cyan-400 text-glow">MATCH</span></span>
+            </a>
+            <div class="hidden md:flex items-center gap-6 text-sm text-slate-300">
+                <a href="catalogo.html" class="nav-link">Catalogo</a>
+                <a href="home.html#in-evidenza" class="nav-link">In evidenza</a>
+            </div>
+            <div class="magnet-wrapper !w-auto">
+                <a href="index.html" class="apple-glass-btn px-5 py-2 font-tech text-xs tracking-wider text-cyan-300">
+                    <div class="glass-surface"></div><div class="liquid-core"></div><div class="specular-highlight"></div>
+                    <span class="btn-text"><i class="fa-solid fa-right-to-bracket mr-2"></i>ACCEDI</span>
+                </a>
+            </div>
+        </nav>
+    </header>
+
+    <main class="relative z-20 max-w-6xl mx-auto px-4 py-10">
+        <h1 class="font-tech font-black text-3xl md:text-4xl text-white">Trova la mia auto</h1>
+        <p class="text-slate-300 mt-2 mb-8 max-w-xl">Rispondi alle domande: ordiniamo gli annunci per compatibilità con quello che cerchi.</p>
+
+        <!-- QUESTIONARIO -->
+        <section id="wizard" class="tech-card tech-corners rounded-2xl p-6 md:p-8 max-w-2xl" aria-live="polite">
+            <div class="glass-blobs" aria-hidden="true"><span></span><span></span><span></span></div>
+            <div class="flex items-center justify-between text-xs text-slate-400 mb-2">
+                <span id="stepLabel">Domanda 1 di 7</span>
+                <button type="button" id="backBtn" class="hover:text-cyan-400 hidden"><i class="fa-solid fa-arrow-left mr-1"></i>Indietro</button>
+            </div>
+            <div class="bar mb-6"><i id="progress" style="width:0%"></i></div>
+            <div id="stepBody"></div>
+        </section>
+
+        <!-- RISULTATI -->
+        <section id="results" hidden aria-labelledby="resTitle">
+            <div class="flex flex-wrap items-end justify-between gap-3 mb-6">
+                <div>
+                    <h2 id="resTitle" class="font-tech text-2xl text-white">I tuoi match</h2>
+                    <p id="resSummary" class="text-sm text-slate-400 mt-1"></p>
+                </div>
+                <div class="magnet-wrapper !w-auto">
+                    <button type="button" id="restartBtn" class="apple-glass-btn px-5 py-2.5 font-tech text-xs tracking-wider text-slate-200">
+                        <div class="glass-surface"></div><div class="liquid-core"></div><div class="specular-highlight"></div>
+                        <span class="btn-text"><i class="fa-solid fa-rotate-left mr-2 text-cyan-400"></i>NUOVA RICERCA</span>
+                    </button>
+                </div>
+            </div>
+            <div id="resList" class="grid md:grid-cols-2 gap-4"></div>
+            <p class="text-[11px] text-slate-500 mt-6">Foto da Wikimedia Commons, con licenza libera. Prezzi indicativi "da listino", possono variare. Autore e licenza sono indicati nella scheda di ogni auto.</p>
+        </section>
+    </main>
+
+    <div id="toast" role="status" aria-live="polite" class="fixed bottom-5 right-5 transform translate-y-20 opacity-0 transition-all duration-300 z-50 flex items-center gap-3 px-4 py-3 rounded-xl bg-slate-900 border border-cyan-500/40 text-white shadow-2xl">
+        <i id="toastIcon" class="fa-solid fa-circle-info text-cyan-400"></i>
+        <span id="toastMsg" class="text-xs font-tech">Messaggio di sistema</span>
+    </div>
+
+    <script src="common.js"></script>
+    <script src="data.js"></script>
+    <script src="cerca.js"></script>
+</body>
+</html>
